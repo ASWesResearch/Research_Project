@@ -1,8 +1,13 @@
 from astropy.io import ascii
 import os
+from os import system
 def File_Query(Gname,File_Type_Str,Extension=".fits"): #Still bugs, Bug:(UnboundLocalError: local variable 'File_Path_With_Filename_Str' referenced before assignment), Update(I fixed this bug, but I need to bug check more)
     File_Path_With_Filename_Str="Some Filepath"
-    data = ascii.read("/home/asantini/Desktop/SQL_Standard_File/SQL_Sandard_File.csv") #data:-astropy.table.table.Table, data, The data from the SQL_Standard_File
+    dir = os.path.dirname(__file__)
+    path=os.path.realpath('../SQL_Standard_File/SQL_Sandard_File.csv')
+    print "Path=",path
+    data = ascii.read(path)
+    #data = ascii.read("/home/asantini/Desktop/SQL_Standard_File/SQL_Sandard_File.csv") #data:-astropy.table.table.Table, data, The data from the SQL_Standard_File
     #print data
     #print type(data)
     #Standard_File=open("/home/asantini/Desktop/SQL_Standard_File/SQL_Sandard_File.csv","r")
