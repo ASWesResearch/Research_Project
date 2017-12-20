@@ -3,6 +3,8 @@ from region import *
 #from paramio import *
 from astroquery.ned import Ned
 import numpy as np
+import os
+from os import system
 #import subprocess
 #subprocess.call("pset dmkeypar mode='hl'")
 def Area_Calc_Frac_B_2_Alt_2(gname,evtfname,polyfname,rchange=121.9512195,B=1): #NEED to finish this code, Check to see if the radius is increaing correctly and write outputs to a file
@@ -23,7 +25,17 @@ def Area_Calc_Frac_B_2_Alt_2(gname,evtfname,polyfname,rchange=121.9512195,B=1): 
     Evtfname_Reduced=evtfname.split(".")[0] #Evtfname_Reduced:-str, Event_Filename_Reduced, The filename of the event 2 file of the observation without the extention ".fits" at the end, for example "acisf02076_repro_evt2"
     Output_File=open(str(gname)+"_"+Evtfname_Reduced+"_Area_List.txt","w") #Output_File:-file, Output_File, The Area_List file, which is the file were the list of Area_Ratios one for each circle (ie. each n) are saved, in the form of one line per ratio
     polystring_L=[] #polystring_L:-list, Polygon String List, A list of all the CCD shape strings
-    polyfile=open("/home/asantini/Desktop/Polygons/"+str(polyfname),"r") #polyfile:-file, Polyfile, The polygon file that has the CCD shape strings in it
+    dir = os.path.dirname(__file__)
+    #system('pwd')
+    #system('cd ../..')
+    #system('pwd')
+    #path=os.path.realpath('../Polygons/'+str(polyfname))
+    path=os.path.realpath('../../Polygons/'+str(polyfname))
+    #path=os.path.realpath('../SQL_Standard_File/SQL_Sandard_File.csv')
+    print "Path=",path
+    #data = ascii.read(path)
+    #polyfile=open("/home/asantini/Desktop/Polygons/"+str(polyfname),"r") #polyfile:-file, Polyfile, The polygon file that has the CCD shape strings in it #OLD
+    polyfile=open(path,"r") #polyfile:-file, Polyfile, The polygon file that has the CCD shape strings in it
     #print type(polyfile)
     #print polyfile
     G_Data = Ned.query_object(gname) #G_Data:-astropy.table.table.Table, Galaxy_Data, The queryed data of the galaxy from NED in the form of a astropy table
@@ -63,7 +75,7 @@ def Area_Calc_Frac_B_2_Alt_2(gname,evtfname,polyfname,rchange=121.9512195,B=1): 
     print values
     """
     """
-    This Par of the code finds what CCD's are used in the current observation by finding a string in the "DETNAM" header in the Event 2 file 
+    This Par of the code finds what CCD's are used in the current observation by finding a string in the "DETNAM" header in the Event 2 file
     """
     Header_String=dmlist(infile=str(evtfname),opt="header")
     #print Header_String
