@@ -3,6 +3,8 @@ from ciao_contrib.runtool import *
 from region import *
 import numpy as np
 import math
+import os
+from os import system
 def Background_Finder_3(gname,evtfname,objLfname,R): #Need to apply energy filter (0.3kev to 10kev) to the counts, This may allow the code to treat back illuminated chips and front illuminated chips the same, if not then the code must be modifed to consider both cases
     """
     gname:-str, Galaxy Name, The name of the galaxy in the form NGC #, For Example 'NGC 3077'
@@ -22,8 +24,28 @@ def Background_Finder_3(gname,evtfname,objLfname,R): #Need to apply energy filte
     print Num_BG_Pix
     CCD_L=[] # Note: I don't even know if I need this, It's only defined here and never used again I think
     Obj_Shape="" # Note: I don't even know if I need this, It's only defined here and never used again I think
-    Objfile=open("/home/asantini/Desktop/Big_Object_Regions/"+str(objLfname),"r") #Objfile:-file, Objectfile, a file containing the regions of the X-ray objects in the observation as strings regions
+    #system('pwd')
+    #system('ls')
+    #system('cd ~/Desktop/Big_Object_Regions/')
+    #os.chdir('~/Desktop/Big_Object_Regions/')
+    dir = os.path.dirname(__file__)
+    #filename= os.path.join(dir, '~','Desktop','SQL_Standard_File',)
+    #filepath=os.path.abspath("~/Desktop/SQL_Standard_File")
+    #print "Filepath =",filepath
+    #path= os.path.join(dir,'~','Desktop','SQL_Standard_File',)
+    #path=os.path.realpath('~/Desktop/SQL_Standard_File/SQL_Sandard_File.csv')
+    path=os.path.realpath('../Big_Object_Regions/')
+    print "Path=",path
+    #system('pwd')
+    os.chdir(path)
+    #system('ls')
+    #os.chdir("~")
+    #os.system("cd ~")
+    #Objfile=open("Desktop/Big_Object_Regions/"+str(objLfname),"r") #Objfile:-file, Objectfile, a file containing the regions of the X-ray objects in the observation as strings regions
+    Objfile=open(str(objLfname),"r")
     #print type(Objfile)
+    path2=os.path.realpath('../Background_Finder/') #Changes PWD back to this code's PWD in Desktop/Background_Finder, this may be Changed later to go to the location of the Evt2 file that will be used in the DMCOORDS, the location will be given by File_Query_Code
+    os.chdir(path2)
     Objstring=Objfile.read() #Objstring:-str, Objstring, the all X-ray object regions all in one big string with each object "\n" seperated
     #print Objstring
     #print type(Objstring)
