@@ -25,7 +25,7 @@ def Area_GC_R_N_F_2(Gname):
     import math
     from astropy.io import ascii
     import matplotlib.pyplot as plt
-    system('pwd')
+    #system('pwd')
     #system('cd ~/Desktop/SQL_Standard_File/')
     #import os
     dir = os.path.dirname(__file__)
@@ -35,7 +35,7 @@ def Area_GC_R_N_F_2(Gname):
     #path= os.path.join(dir,'~','Desktop','SQL_Standard_File',)
     #path=os.path.realpath('~/Desktop/SQL_Standard_File/SQL_Sandard_File.csv')
     path=os.path.realpath('../SQL_Standard_File/SQL_Sandard_File.csv')
-    print "Path=",path
+    #print "Path=",path
     #os.chdir(path)
     #os.chdir('~/Desktop/SQL_Standard_File/')
     #system('cd ~/Desktop/Big_Object_Regions/')
@@ -170,11 +170,31 @@ def Area_GC_R_N_F_2(Gname):
     #print "Hist_Max ", Hist_Max
     plt.plot()
     #plt.savefig('Test1.png')
+    path_2=os.path.realpath('../Master_Code/Histograms/') #Goes to Histograms folder, which will hold the histogram pictures
+    print "Path_2=",path_2
+    os.chdir(path_2)
+    #system('mkdir '+Gname) #Creates Current Galaxy's Folder, Folder Named after Galaxy, Note: will have to remove space from "NGC #" to change to "NGC_#", I Don't know if this works
+    Gname_L=Gname.split(" ")
+    print "Gname_L: ", Gname_L
+    if(len(Gname_L)>1):
+        Gname_Modifed=Gname_L[0]+"_"+Gname_L[1] #Adds underscore to remove space from "NGC #" to change to "NGC_#" if there is a space in the name
+    else:
+        Gname_Modifed=Gname # Does nothing if the galaxy name has no space, ie. NGC#, For example NGC253 instead of NGC 253 or NGC_253
+    print Gname_Modifed
+    path_3=path_2+'/'+Gname_Modifed+'/'
+    directory = os.path.dirname(path_3)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    os.chdir(path_3) #Goes to Current Galaxies Folder
     plt.savefig(Gname+'_Frac.png') #Saves angluar histogram figure
+    #system('pwd')
+    path_4=os.path.realpath('../../../GitHub/')
+    print "Path_4=",path_4
+    os.chdir(path_4) #Goes back to where this code (the histogram code) is being run, ie. Desktop/GitHub
     plt.close()
     #plt.show()
 
-Area_GC_R_N_F_2('NGC4258')
+#Area_GC_R_N_F_2('NGC4258')
 
 def Area_GC_R_N(Gname):
     """
@@ -340,7 +360,34 @@ def Area_GC_R_N(Gname):
     #print "Hist_Max ", Hist_Max
     plt.plot()
     #plt.savefig('Test2.png')
+    path_2=os.path.realpath('../Master_Code/Histograms/') #Goes to Histograms folder, which will hold the histogram pictures
+    print "Path_2=",path_2
+    os.chdir(path_2)
+    #system('mkdir '+Gname) #Creates Current Galaxy's Folder, Folder Named after Galaxy, Note: will have to remove space from "NGC #" to change to "NGC_#", I Don't know if this works
+    Gname_L=Gname.split(" ")
+    print "Gname_L: ", Gname_L
+    if(len(Gname_L)>1):
+        Gname_Modifed=Gname_L[0]+"_"+Gname_L[1] #Adds underscore to remove space from "NGC #" to change to "NGC_#" if there is a space in the name
+    else:
+        Gname_Modifed=Gname # Does nothing if the galaxy name has no space, ie. NGC#, For example NGC253 instead of NGC 253 or NGC_253
+    print Gname_Modifed
+    path_3=path_2+'/'+Gname_Modifed+'/'
+    print "path_3=",path_3
+    directory = os.path.dirname(path_3)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    os.chdir(path_3) #Goes to Current Galaxies Folder
     plt.savefig(Gname+'_Ang.png') #Saves angluar histogram figure
+    #system('pwd')
+    path_4=os.path.realpath('../../../GitHub/')
+    print "Path_4=",path_4
+    os.chdir(path_4) #Goes back to where this code (the histogram code) is being run, ie. Desktop/GitHub
     #plt.show()
 
-Area_GC_R_N('NGC4258')
+#Area_GC_R_N('NGC4258')
+
+def Driver_Code(Gname):
+    Area_GC_R_N_F_2(Gname)
+    Area_GC_R_N(Gname)
+
+Driver_Code('NGC4258')
