@@ -1,6 +1,17 @@
 from ciao_contrib.runtool import *
+import os
+from os import system
 def Axis_Offset_Calc(fname,evtfname):
-    Sourcefile=open("/home/asantini/Desktop/Axis_Offset_Files/"+str(fname),"r") #Sourcefile:-file, Sourcefile, The text file contianing the coordinates of X-ray objects in physical(?) coordinates in pixels
+    dir = os.path.dirname(__file__)
+    #filename= os.path.join(dir, '~','Desktop','SQL_Standard_File',)
+    #filepath=os.path.abspath("~/Desktop/SQL_Standard_File")
+    #print "Filepath =",filepath
+    #path= os.path.join(dir,'~','Desktop','SQL_Standard_File',)
+    #path=os.path.realpath('~/Desktop/SQL_Standard_File/SQL_Sandard_File.csv')
+    path=os.path.realpath('../Axis_Offset_Files/'+str(fname))
+    print "Path=",path
+    #Sourcefile=open("/home/asantini/Desktop/Axis_Offset_Files/"+str(fname),"r") #Sourcefile:-file, Sourcefile, The text file contianing the coordinates of X-ray objects in physical(?) coordinates in pixels
+    Sourcefile=open(path,"r") #Sourcefile:-file, Sourcefile, The text file contianing the coordinates of X-ray objects in physical(?) coordinates in pixels
     SourceS=Sourcefile.read() #SourceS:-str, Source String, The string contianing all the physical coordinates of the objects in pixels
     rowL=SourceS.split('\n') #rowL:-list, Row List, The list of all the rows of the text files as strings
     row_num_L=[] #row_num_L:-list, Row Number List, The list of all row numbers in the file as int
