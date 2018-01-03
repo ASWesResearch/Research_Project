@@ -2,7 +2,21 @@ from astropy.io import ascii
 import os
 import pyregion
 def Source_Region_Generator_Radius_Modifed_V2(Gname,M=10):
-        data = ascii.read("/home/asantini/Desktop/SQL_Standard_File/SQL_Sandard_File.csv") #data:-astropy.table.table.Table, data, The data from the SQL_Standard_File
+        """
+        Gname:-str, Galaxy Name, The name of the galaxy in the form NGC #, For Example 'NGC 3077'
+        M:-int, Multiplier, The amount the radius of the X-ray source regions will be multiplied to from the modifed regions
+
+        This code takes the name of the galaxy and the X-ray source region multiplier and creates a modifed region file containing the
+        regions of the X-ray sources modifed by multiplying their radii.
+        While this code has been documented assuming that the galaxies in CSC and Not in CSC were all in the same file, it turns out they are in one file called trace
+        which contians all the obsIDs (all obsIDs for the study?, most likely yes, All)
+        """
+        #data = ascii.read("/home/asantini/Desktop/SQL_Standard_File/SQL_Sandard_File.csv") #data:-astropy.table.table.Table, data, The data from the SQL_Standard_File
+        dir = os.path.dirname(__file__)
+        path=os.path.realpath('../SQL_Standard_File/SQL_Sandard_File.csv')
+        print "Path=",path
+        #system('pwd')
+        data = ascii.read(path) #data:-astropy.table.table.Table, data, The data from the SQL_Standard_File
         Obs_ID_A=data["obsid"] #Obs_ID_A:-astropy.table.column.Column, Observation_Idenification_Array, The array containing all Observation IDs in the SQL_Standard_File (not indexable)
         #print type(Obs_ID_A)
         Obs_ID_L=list(Obs_ID_A) #Obs_ID_L:-List, Observation_Idenification_List, The list containing all Observation IDs in the SQL_Standard_File (So it is indexable)
@@ -115,8 +129,16 @@ def Source_Region_Generator_Radius_Modifed_V2(Gname,M=10):
                     #print "Maj_Ax ", Maj_Ax
                     Cur_Shape='circle('+str(X)+','+str(Y)+','+str(Maj_Ax * M) + ')' + '\n' #Cur_Shape:-str, Current_Shape, The big region (called a shape) of the current X-ray object, 'Big' refers to the multiplied radius
                     Shape_String_List.append(Cur_Shape)
-                Source_Region_Tables_Filepath="/home/asantini/Desktop/Source_Region_Tables/"
+                #Source_Region_Tables_Filepath="/home/asantini/Desktop/Source_Region_Tables/"
+                #system('pwd')
+                cwd = os.getcwd()
+                print cwd
+                #Source_Region_Tables_Filepath=os.path.realpath('../../../../vvodata/home/asantini/Desktop/Source_Region_Tables/')
+                #Source_Region_Tables_Filepath=path=os.path.realpath('~')
+                Source_Region_Tables_Filepath='/Network/Servers/vimes.astro.wesleyan.edu/Volumes/vvodata/home/asantini/Desktop/Source_Region_Tables' #Need to use relitive path intead but will not work since it goes to Volumes
                 os.chdir(Source_Region_Tables_Filepath)
+                cwd = os.getcwd()
+                print cwd
                 Gname_Underscore=Gname.replace(Gname[3], "_", 1)
                 Region_fname=Gname_Underscore+"_"+"ObsID_"+Cur_Obs_ID_Str+"_Source_Regions_Radius_Modifed.txt"
                 file=open(Region_fname,"w")
