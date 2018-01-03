@@ -382,6 +382,7 @@ def Area_GC_R_N(Gname):
     path_4=os.path.realpath('../../../GitHub/')
     print "Path_4=",path_4
     os.chdir(path_4) #Goes back to where this code (the histogram code) is being run, ie. Desktop/GitHub
+    plt.close()
     #plt.show()
 
 #Area_GC_R_N('NGC4258')
