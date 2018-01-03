@@ -5,7 +5,7 @@ def File_Query(Gname,File_Type_Str,Extension=".fits"): #Still bugs, Bug:(Unbound
     File_Path_With_Filename_Str="Some Filepath"
     dir = os.path.dirname(__file__)
     path=os.path.realpath('../SQL_Standard_File/SQL_Sandard_File.csv')
-    print "Path=",path
+    #print "Path=",path
     data = ascii.read(path)
     #data = ascii.read("/home/asantini/Desktop/SQL_Standard_File/SQL_Sandard_File.csv") #data:-astropy.table.table.Table, data, The data from the SQL_Standard_File
     #print data
@@ -43,6 +43,7 @@ def File_Query(Gname,File_Type_Str,Extension=".fits"): #Still bugs, Bug:(Unbound
             Matching_Obs_ID_L.append(Cur_Matching_Obs_ID) #Appends the Current_Matching_Observation_Idenification to the Matching_Observation_Idenification_List if the Current_Matching_Observation_Idenification has not already been included
     #print "Matching_Index_List ", Matching_Index_List
     #print "Matching_Obs_ID_L ", Matching_Obs_ID_L
+    fname_L_H=[]
     for Cur_Obs_ID in Matching_Obs_ID_L: #Cur_Obs_ID:-numpy.int64, Current_Observation_Idenification, The current Observation ID in the list of all obsevation IDs for the current Galaxy Name (Matching_Obs_ID_L)
         #print "Cur_Obs_ID ", Cur_Obs_ID
         #print "type(Cur_Obs_ID) ", type(Cur_Obs_ID)
@@ -94,7 +95,7 @@ def File_Query(Gname,File_Type_Str,Extension=".fits"): #Still bugs, Bug:(Unbound
                         Filename_String=Fname_Str_In_CSC #Filename_String:-str, Filename_String, The filename of the matching file, ie the filename that the code is looking for
                         File_Path_With_Filename_Str=File_Path_Str_Primary_In_CSC+Filename_String #File_Path_With_Filename_Str:-str, File_Path_With_Filename_String, The filepath to the matching file, for example: "/Volumes/xray/simon/chandra_from_csc/794/primary/acisf00794N003_evt2.fits"
                         Found_File_Bool=True #Sets Found_File_Bool=True to indcate that the file has been found
-                        print "Found the File (IN) ! ! !"
+                        #print "Found the File (IN) ! ! !"
             os.chdir("/Volumes/xray/simon/chandra_not_csc/") #Tells the code to consider the files in the directory that has the obsevation files that are NOT contained in the Chandra Source Cataloge (CSC), This is as if the code changed its directory but the current directory of the code has not changed(?)
             retval = os.getcwd() #retval:-str, retval, The current working directory as a string
             #print "type(retval) ", type(retval)
@@ -131,21 +132,26 @@ def File_Query(Gname,File_Type_Str,Extension=".fits"): #Still bugs, Bug:(Unbound
                         Filename_String=Fname_Str_Not_CSC #Filename_String:-str, Filename_String, The filename of the matching file, ie the filename that the code is looking for
                         File_Path_With_Filename_Str=File_Path_Str_Primary_Not_CSC+Filename_String #File_Path_With_Filename_Str:-str, File_Path_With_Filename_String, The filepath to the matching file, for example: "/Volumes/xray/simon/chandra_from_csc/794/primary/acisf00794N003_evt2.fits"
                         Found_File_Bool=True #Sets Found_File_Bool=True to indcate that the file has been found
-                        print "Found the File (NOT) ! ! !"
+                        #print "Found the File (NOT) ! ! !"
             if(Found_File_Bool==False): #Checks to see if an uncompressed file was found, if not it sets Fits_Gz_Bool=True so the code starts checking for ".gz" compressed files
                 Fits_Gz_Bool=True #Sets Fits_Gz_Bool=True so the code starts checking for ".gz" compressed files
                 "Finding compressed"
         #print "Filename_String ", Filename_String
-        print "File_Path_With_Filename_Str ", File_Path_With_Filename_Str
-        return File_Path_With_Filename_Str
+        fname_L=[Cur_Obs_ID,File_Path_With_Filename_Str]
+        fname_L_H.append(fname_L)
+        #print "File_Path_With_Filename_Str ", File_Path_With_Filename_Str
+        #return File_Path_With_Filename_Str #Should not return first filenames but instead all the filenames as a list
+    #print fname_L_H
+    return fname_L_H
 
 
-
-File_Query("NGC 891","evt2") #In in CSC
-#File_Query("NGC 6946","evt2") #In CSC
-#File_Query("NGC 891","fov1") #In in CSC
-#File_Query("NGC 891","reg",".reg") #In in CSC
-#File_Query("NGC 6946","fov1") #In CSC
-#File_Query("NGC 4449","evt2") # Not CSC
-#File_Query("NGC 4449","fov1") #Not CSC
-#File_Query("NGC 4449","reg",".reg") #NOT CSC
+print File_Query("NGC 891","evt2") #In in CSC
+#print File_Query("NGC 6946","evt2") #In CSC
+#print File_Query("NGC 891","fov1") #In in CSC
+#print File_Query("NGC 891","reg",".reg") #In in CSC
+#print File_Query("NGC 6946","fov1") #In CSC
+#print File_Query("NGC 4449","evt2") # Not CSC
+#print File_Query("NGC 4449","fov1") #Not CSC
+#print File_Query("NGC 4449","reg",".reg") #NOT CSC
+#print File_Query("M31","evt2") #This has multible ObsIDs for the 1 Galaxy M31
+#print File_Query("M31","evt2") #This has multible ObsIDs for the 1 Galaxy M31
