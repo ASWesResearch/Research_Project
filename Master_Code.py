@@ -29,8 +29,9 @@ def Pipeline_A(Gname_L):
     for Gname in Gname_L:
         #Pipeline_A Code
         Galaxy_Histogram_Code_2.Driver_Code(Gname) #This runs the histrogram code and creates the histrograms and the directories with the histrograms in them
-"""
+
 # Pipelines are quoted until they are finished
+"""
 def Pipeline_B(Gname_L):
     for Gname in Gname_L:
         #Pipeline_B Code
