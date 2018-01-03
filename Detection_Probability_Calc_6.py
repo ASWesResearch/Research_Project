@@ -13,6 +13,8 @@ def Detection_Probability_Calc_3(fname_L_H,B,C,OFF):
     from scipy import interpolate
     from scipy.interpolate import interp1d
     import astropy.io.ascii as ascii
+    import os
+    from os import system
     C_L=[] # Count List, A list of float count values
     P_L=[] # A list of the probabilities as a function of the background
     P_C_L=[] # P_C_L:-list, Probablity as a function of Counts List, The Probablity as a function of the user given background and user given count value in a list, with each value and the order of the list associated with a list of offaxis anlges Off_T_L=[0,2,5,10], Example The first probablity in the list is associated with 0'
@@ -22,7 +24,25 @@ def Detection_Probability_Calc_3(fname_L_H,B,C,OFF):
         C_L=[] # Count List, A list of float count values
         P_L=[] # A list of the probabilities as a function of the background
         for fname in fname_L: # Selects each filename from the high filename list
-            data = ascii.read('/home/asantini/Desktop/Background_Graph_Data_2/' + str(fname)) # Reads in the data from the current filename's file
+            #data = ascii.read('/home/asantini/Desktop/Background_Graph_Data_2/' + str(fname)) # Reads in the data from the current filename's file
+            dir = os.path.dirname(__file__)
+            #filename= os.path.join(dir, '~','Desktop','SQL_Standard_File',)
+            #filepath=os.path.abspath("~/Desktop/SQL_Standard_File")
+            #print "Filepath =",filepath
+            #path= os.path.join(dir,'~','Desktop','SQL_Standard_File',)
+            #path=os.path.realpath('~/Desktop/SQL_Standard_File/SQL_Sandard_File.csv')
+            path=os.path.realpath('../Background_Graph_Data_2/' + str(fname))
+            #print "Path=",path
+            #os.chdir(path)
+            #os.chdir('~/Desktop/SQL_Standard_File/')
+            #system('cd ~/Desktop/Big_Object_Regions/')
+            #system('cd ../SQL_Standard_File/')
+            #system('pwd')
+            #system('ls')
+            #data = ascii.read("SQL_Sandard_File.csv") #data:-astropy.table.table.Table, data, The data from the SQL_Standard_File
+            #data = ascii.read(filename) #data:-astropy.table.table.Table, data, The data from the SQL_Standard_File
+            #data = ascii.read(filepath) #data:-astropy.table.table.Table, data, The data from the SQL_Standard_File
+            data = ascii.read(path) #data:-astropy.table.table.Table, data, The data from the SQL_Standard_File
             #data = ascii.read('~/asantini/Desktop/Background_Graph_Data_2/' + str(fname)) # Reads in the data from the current filename's file
             B_A=data['col1'] # B_A:-array, Background Array, The array contianing the background data from the current data file, in order of increasing background
             P_A=data['col2'] # P_A:-array, Probablity Array, The array of probabilities in the order of the increasing backgrounds they are associated with
