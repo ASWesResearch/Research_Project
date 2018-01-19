@@ -1,8 +1,9 @@
-import pyds9
-def XPA_DS9_Region_Generator(evtfname,fovfname):
+import pyds9 #For some reason this gives the error "ImportError: No module named pyds9", This code worked before, maybe the module is uninstalled
+def XPA_DS9_Region_Generator(evtfilepath,fovfilepath):
+    #THIS CODE IS UNTESTED, XPA_DS9_Region_Generator.py is the current working version of this code, Therefore it is not yet pushed to GitHub
     """
-    evtfname:-str, Event_Filename, The filename of the Event 2 File
-    fovfname:-str, Feild_Of_View_Filename, The filename of the FOV 1 File
+    evtfilepath:-str, Event_Filename, The filepath of the Event 2 File
+    fovfilepath:-str, Feild_Of_View_Filename, The filepath of the FOV 1 File
 
     This function take the Event 2 filename of the current observation and the Feild Of View filename of the current
     observation (Which are the CCD polygon regions) and opens both the evt2.fits file and the fov1.fits files in DS9 and
@@ -26,7 +27,7 @@ def XPA_DS9_Region_Generator(evtfname,fovfname):
     #pyds9.DS9().set("acisf03931_repro_evt2.fits")
     #d.set("acisf03931_repro_evt2.fits")
     #d.set("acisf03931_repro_evt2.fits /path/to/fits")
-    d.set("file "+str(evtfname)) #Opens the Event 2file in DS9 #THIS WORKS ! ! !
+    d.set("file "+str(evtfilepath)) #Opens the Event 2file in DS9 #THIS WORKS ! ! !
     #d.get("regions acisf03931_repro_fov1.fits")
     #d.get("regions -load acisf03931_repro_fov1.fits")
     #acisf03931_repro_evt2.fits -regions acisf03931_repro_fov1.fits -regions system physical -regions save foo2 -exit
@@ -34,17 +35,28 @@ def XPA_DS9_Region_Generator(evtfname,fovfname):
     #d.get("-regions acisf03931_repro_fov1.fits")
     #d.set("-regions acisf03931_repro_fov1.fits")
     #d.set("regions acisf03931_repro_fov1.fits") #This works ! ! !
-    d.set("regions " + str(fovfname)) #Loads the Feild Of View 1 file in DS9 #This Works ! ! !
+    d.set("regions " + str(fovfilepath)) #Loads the Feild Of View 1 file in DS9 #This Works ! ! !
     d.set("regions system physical") #This converts the region's coordinate system to physical coordinates (pixels) #This works ! ! !
     #d.set("regions save foo2") #This works ! ! !
     #CCD Regions
+    print "evtfilepath ", evtfilepath
+    print "fovfilepath ", fovfilepath
+    fovfname_L=fovfilepath.split('/')
+    print "fovfname_L ", fovfname_L
+    fovfname=fovfname_L[len(fovfname_L)-1]
+    print "fovfname ", fovfname
     fovfname_Split_L=fovfname.split('_') #fovfname_Split_L:-List, Feild_Of_View_Filename_Split_List, The resulting list of the split string regions of fovfname, The fovfname string was split on "_"
+    print "fovfname_Split_L ", fovfname_Split_L
     #print "fovfname_Split_L ", fovfname_Split_L
     fovfname_reduced=fovfname_Split_L[0]+"_"+fovfname_Split_L[1] #fovfname_reduced:-str, Feild_Of_View_Filename_Reduced, The Feild_Of_View_Filename without the "_fov1.fits" part, for example the fovfname_reduced of the fovfname "acisf03931_repro_fov1.fits" is "acisf03931_repro"
+    if '.' in fovfname_Split_L[1]:
+        fovfname_reduced=fovfname_Split_L[0]
+    print "fovfname_reduced ", fovfname_reduced
     #print "fovfname_reduced ", fovfname_reduced
     #print fovfname_reduced
     d.set("regions save "+str(fovfname_reduced)+"_CCD_Regions") #Saves the FOV1.fits file as a text file in physical coordinates with the filename in the form of str(fovfname_reduced)+"_CCD_Regions", for example for "acisf03931_repro_fov1.fits" the output file name is "acisf03931_repro_CCD_Regions"
     d.set("exit") #Exits DS9 #This Works ! ! !
     #d.set('quit') #I think this does the exact same thing as d.set("exit"), I don't know if this is necessary, but I CAN'T be used when d.set("exit") is on the line above it #This Works ! ! !
-XPA_DS9_Region_Generator("acisf03931_repro_evt2.fits","acisf03931_repro_fov1.fits")
+#XPA_DS9_Region_Generator("acisf03931_repro_evt2.fits","acisf03931_repro_fov1.fits")
 #XPA_DS9_Region_Generator("acisf13830_repro_evt2.fits","acisf13830_repro_fov1.fits")
+#XPA_DS9_Region_Generator("/Volumes/xray/simon/chandra_from_csc/794/primary/acisf00794N003_evt2.fits","/Volumes/xray/simon/chandra_from_csc/794/primary/794_reg.reg")
